@@ -129,7 +129,7 @@ impl super::BuildConfig {
             .ctypes_prefix("::types::raw_types")
             .parse_callbacks(Box::new(MbedtlsParseCallbacks))
             .default_enum_style(bindgen::EnumVariation::Consts)
-            .generate_comments(false)
+            .generate_comments(true)
             .derive_copy(true)
             .derive_debug(false) // buggy :(
             .derive_default(true)
