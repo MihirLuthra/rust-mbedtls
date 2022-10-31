@@ -354,7 +354,6 @@ dependencies = [
 [[package]]
 name = "mbedtls-sys-auto"
 version = "2.28.0"
-source = "git+https://github.com/MihirLuthra/rust-mbedtls.git?branch=mihir/mbedtls0.8-freelist#0cc6942d8f5ea5c60a23a3c1726e3141c68d9755"
 dependencies = [
  "bindgen",
  "cc",
