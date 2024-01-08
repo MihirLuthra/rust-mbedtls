@@ -347,6 +347,7 @@ impl<T> Context<T> {
 
     fn inner_handshake(&mut self) -> Result<()> {
         self.flush_output()?;
+        info!("Past flush_output()");
         unsafe { ssl_handshake(self.into()).into_result_discard() }
     }
 
