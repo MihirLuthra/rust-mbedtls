@@ -906,7 +906,7 @@ int mbedtls_internal_aes_encrypt(mbedtls_aes_context *ctx,
     MBEDTLS_PUT_UINT32_LE(t.X[2], output,  8);
     MBEDTLS_PUT_UINT32_LE(t.X[3], output, 12);
 
-    mbedtls_platform_zeroize(&t, sizeof(t));
+    /* mbedtls_platform_zeroize(&t, sizeof(t)); */
 
     return 0;
 }
