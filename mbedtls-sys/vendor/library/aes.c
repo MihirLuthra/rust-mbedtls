@@ -858,6 +858,7 @@ int mbedtls_internal_aes_encrypt(mbedtls_aes_context *ctx,
                                  const unsigned char input[16],
                                  unsigned char output[16])
 {
+    mbedtls_printf("mbedtls_android: Entered mbedtls_internal_aes_encrypt");
     int i;
     uint32_t *RK = ctx->rk;
     struct {
@@ -906,7 +907,9 @@ int mbedtls_internal_aes_encrypt(mbedtls_aes_context *ctx,
     MBEDTLS_PUT_UINT32_LE(t.X[2], output,  8);
     MBEDTLS_PUT_UINT32_LE(t.X[3], output, 12);
 
-    /* mbedtls_platform_zeroize(&t, sizeof(t)); */
+    mbedtls_printf("mbedtls_android: before zeroize");
+    mbedtls_platform_zeroize(&t, sizeof(t));
+    mbedtls_printf("mbedtls_android: exiting mbedtls_internal_aes_encrypt");
 
     return 0;
 }
