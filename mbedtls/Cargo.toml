@@ -76,11 +76,12 @@ mbedtls-sys-auto = { path = "../mbedtls-sys", version = "2.25.0", default-featur
 
 [features]
 # Features are documented in the README
+android_logcat = []
 
 x509 = []
 ssl = ["x509"]
 
-default = ["std", "aesni", "time", "padlock"]
+default = ["std", "time", "async-rt", "x509", "ssl"]
 std = [
     "byteorder/std",
     "mbedtls-sys-auto/std",

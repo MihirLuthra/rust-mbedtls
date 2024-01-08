@@ -114,6 +114,16 @@ cfg_if::cfg_if! {
     }
 }
 
+cfg_if::cfg_if! {
+    if #[cfg(feature = "android_logcat")] {
+        #[doc(hidden)]
+        #[no_mangle]
+        pub unsafe extern "C" fn mbedtls_log(msg: *const std::os::raw::c_char) {
+            info!("{}", std::ffi::CStr::from_ptr(msg).to_string_lossy());
+        }
+    }
+}
+
 /// # Safety
 ///
 /// The caller must ensure no other MbedTLS code is running when calling this
