@@ -74,6 +74,7 @@ impl<T: Unpin + AsyncRead + AsyncWrite + 'static> Context<T> {
         {
             type Output = Result<()>;
             fn poll(mut self: Pin<&mut Self>, ctx: &mut TaskContext) -> std::task::Poll<Self::Output> {
+                info!("{}:{}", line!(), file!());
                 self.0
                     .with_bio_async(ctx, |ssl_ctx| match ssl_ctx.handshake() {
                         Err(Error::SslWantRead) | Err(Error::SslWantWrite) => Poll::Pending,
@@ -84,7 +85,11 @@ impl<T: Unpin + AsyncRead + AsyncWrite + 'static> Context<T> {
             }
         }
 
+        info!("{}:{}", line!(), file!());
+
         self.prepare_handshake(io, hostname)?;
+
+        info!("{}:{}", line!(), file!());
 
         HandshakeFuture(self).await
     }

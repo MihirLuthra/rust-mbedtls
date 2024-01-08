@@ -20,6 +20,9 @@ extern crate serde_derive;
 extern crate rs_libc;
 
 #[macro_use]
+extern crate log;
+
+#[macro_use]
 mod wrapper_macros;
 
 // ==============

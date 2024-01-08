@@ -303,32 +303,43 @@ impl<T> Context<T> {
     /// `HelloVerifyRequest`, i.e. `establish` failed with
     /// [`Error::SslHelloVerifyRequired`]
     pub fn handshake(&mut self) -> Result<()> {
-        match self.inner_handshake() {
+        info!("{}:{}", line!(), file!());
+        let res = self.inner_handshake();
+        info!("{}:{} res = {:?}", line!(), file!(), res);
+
+        match res {
             Ok(()) => Ok(()),
             Err(Error::SslWantRead) => Err(Error::SslWantRead),
             Err(Error::SslWantWrite) => Err(Error::SslWantWrite),
             Err(Error::SslHelloVerifyRequired) => {
                 unsafe {
+                    info!("{}:{}", line!(), file!());
                     // `ssl_session_reset` resets the client ID but the user will call handshake
                     // again in this case and the client ID is required for a DTLS connection setup
                     // on the server side. So we extract it before and set it after
                     // `ssl_session_reset`.
                     let mut client_transport_id = None;
+        info!("{}:{}", line!(), file!());
                     if !self.inner.handle().cli_id.is_null() {
                         client_transport_id = Some(Vec::from(core::slice::from_raw_parts(
                             self.inner.handle().cli_id,
                             self.inner.handle().cli_id_len,
                         )));
                     }
+        info!("{}:{}", line!(), file!());
                     ssl_session_reset(self.into()).into_result()?;
                     if let Some(client_id) = client_transport_id.take() {
                         self.set_client_transport_id(&client_id)?;
                     }
+        info!("{}:{}", line!(), file!());
                 }
+        info!("{}:{}", line!(), file!());
                 Err(Error::SslHelloVerifyRequired)
             }
             Err(e) => {
+        info!("{}:{} err = {:?}, display = {}", line!(), file!(), e, e);
                 self.close();
+        info!("{}:{}", line!(), file!());
                 Err(e)
             }
         }
